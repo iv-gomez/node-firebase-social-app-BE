@@ -39,9 +39,8 @@ app.get("/user", FBAuth, getAuthenticatedUser);
 // https://baseUrl.com/api/
 exports.api = functions.https.onRequest(app);
 
-exports.createNotificationOnLike = functions
-  .region("us-west3")
-  .firestore.document("likes/{id}")
+exports.createNotificationOnLike = functions.firestore
+  .document("likes/{id}")
   .onCreate((snapshot) => {
     db.doc(`/screams/${snapshot.data().screamId}`)
       .get()
@@ -66,9 +65,8 @@ exports.createNotificationOnLike = functions
       });
   });
 
-exports.deleteNotificationsOnUnlike = functions
-  .region("us-west3")
-  .firestore.document("likes/{id}")
+exports.deleteNotificationsOnUnlike = functions.firestore
+  .document("likes/{id}")
   .onDelete((snapshot) => {
     db.doc(`/notifications/${snapshot.id}`)
       .delete()
@@ -81,9 +79,8 @@ exports.deleteNotificationsOnUnlike = functions
       });
   });
 
-exports.createNotificationOnComment = functions
-  .region("us-west3")
-  .firestore.document("comments/{id}")
+exports.createNotificationOnComment = functions.firestore
+  .document("comments/{id}")
   .onCreate((snapshot) => {
     db.doc(`/screams/${snapshot.data().screamId}`)
       .get()
